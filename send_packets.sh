@@ -1,9 +1,9 @@
 #!/bin/bash
 
-PASSWD=yourpassword
+PASSWD=sys522
 PKGSIZE=100
-WAITTIME=3
-COUNTDOWN=5
+WAITTIME=0
+COUNTDOWN=0
 print_middle(){
     LINES=`tput lines`
     str=$1
@@ -65,25 +65,25 @@ while [ $WAITTIME != 0 ];do
     print_middle $WAITTIME 0
     echo -e "\\033[1;1HTotal time:`echo "scale=2;$pkgnum * $delay"|bc`s"
     WAITTIME=`echo "$WAITTIME - 1"|bc`
-    mpv bibi.wav >/dev/null 2&>1 &
+    #mpv bibi.wav >/dev/null 2&>1 &
     sleep 1
 done
-mpv beep.wav >/dev/null 2&>1 &
-sudo ./random_packets $pkgnum 100 1 `echo "$delay * 1000000"|bc`&
+#mpv beep.wav >/dev/null 2&>1 &
+sudo ./random_packets $pkgnum $PKGSIZE 1 `echo "$delay * 1000000"|bc`&
 trap "clear;echo -e \"\\\\033[92mrandom_packets killed!\\\\033[0m\";echo sys522|sudo -S pkill -9 random_packets;exit" INT
 print_middle GO 1
 echo -e "\\033[1;1HTotal time:`echo "scale=2;$pkgnum * $delay"|bc`s"
 if [ `echo "$delay * $pkgnum - $COUNTDOWN <= 0"|bc` = 1 ];then
     sleep  `echo "$delay * $pkgnum"|bc`
     print_middle FINISH 1
-    mpv beep.wav >/dev/null 2&>1 &
+    #mpv beep.wav >/dev/null 2&>1 &
 else 
     sleep `echo "$delay * $pkgnum - $COUNTDOWN"|bc`
     while [ $COUNTDOWN != 0 ];do
         print_middle $COUNTDOWN 0
         echo -e "\\033[1;1HTotal time:`echo "scale=2;$pkgnum * $delay"|bc`s"
         COUNTDOWN=`echo "$COUNTDOWN - 1"|bc`
-        mpv bibi.wav >/dev/null 2&>1 &
+        #mpv bibi.wav >/dev/null 2&>1 &
         sleep 1
     done
     print_middle FINISH 1
